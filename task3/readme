@@ -1,0 +1,34 @@
+✨ Overview
+
+A modern, multi-page web project demonstrating:
+
+🌐 Responsive Design – Adaptive layouts for mobile, tablet, and desktop
+
+🧠 Interactive Quiz – Multiple-choice quiz with scoring
+
+🌤️ Professional Weather App – Live city weather info (temperature, wind, humidity, condition)
+
+Built with HTML5, CSS3, and JavaScript, featuring a professional color palette, subtle animations, and elegant glass effects.
+
+🛠️ Features
+1️⃣ Responsive Design
+
+Elegant cards that adapt to all screen sizes using Flexbox & media queries
+
+Smooth hover effects with subtle shadows
+
+Gradient backgrounds and readable typography
+
+2️⃣ Interactive Quiz
+
+Instant feedback and score display 🎯
+
+Clean, modern button styles with hover effects
+
+3️⃣ Professional Weather App
+
+Fetches live weather data for any city using the wttr.in API
+
+Text-only output for a minimal and professional look
+
+Clean layout with subtle animations
