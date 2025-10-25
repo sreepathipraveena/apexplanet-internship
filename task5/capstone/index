@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skymood — Weather</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="bg-aurora" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <main class="container">
+    <header class="header">
+      <div class="brand">
+        <div class="logo">⛅</div>
+        <div class="title">
+          <h1>Skymood</h1>
+          <p class="subtitle">Feel the weather</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="search">
+          <input id="cityInput" type="text" placeholder="Search city (e.g., Hyderabad)" aria-label="City name" />
+          <button id="searchBtn" class="btn">Search</button>
+        </div>
+        <div class="actions">
+          <button id="locationBtn" class="btn ghost" title="Use my location">📍</button>
+          <button id="unitToggle" class="btn ghost" title="Toggle °C/°F">°C</button>
+        </div>
+      </div>
+    </header>
+
+    <section id="alert" class="alert hidden"></section>
+
+    <section id="current" class="card current">
+      <div class="skeleton current-skel">
+        <div class="line big"></div>
+        <div class="line"></div>
+        <div class="row">
+          <div class="chip"></div><div class="chip"></div><div class="chip"></div>
+        </div>
+      </div>
+      <div class="current-inner hidden">
+        <div class="current-left">
+          <div class="place-time">
+            <h2 id="place">—</h2>
+            <p id="time">—</p>
+          </div>
+          <div class="temp-wrap">
+            <img id="icon" alt="weather icon" />
+            <div class="temp">
+              <span id="temp">—</span><span class="unit">°</span>
+            </div>
+          </div>
+          <p id="desc" class="desc">—</p>
+        </div>
+        <div class="current-right">
+          <div class="grid">
+            <div class="mini">
+              <span>Feels like</span>
+              <strong id="feels">—</strong>
+            </div>
+            <div class="mini">
+              <span>Humidity</span>
+              <strong id="humidity">—</strong>
+            </div>
+            <div class="mini">
+              <span>Wind</span>
+              <strong id="wind">—</strong>
+            </div>
+            <div class="mini">
+              <span>Pressure</span>
+              <strong id="pressure">—</strong>
+            </div>
+            <div class="mini">
+              <span>Sunrise</span>
+              <strong id="sunrise">—</strong>
+            </div>
+            <div class="mini">
+              <span>Sunset</span>
+              <strong id="sunset">—</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card forecast">
+      <h3>Next 5 Days</h3>
+      <div id="forecast" class="forecast-grid">
+        <!-- forecast items -->
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Data by OpenWeather • Built with ♥</p>
+    </footer>
+  </main>
+
+  <template id="forecastItemTpl">
+    <div class="f-item">
+      <div class="f-day">—</div>
+      <img class="f-icon" alt="icon" />
+      <div class="f-temps">
+        <span class="max">—</span>
+        <span class="min">—</span>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    window.__OWM_API_KEY__ = "37a12fda382291b85c7f20a4b0f16965";
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
