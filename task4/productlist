@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop Smart - Product Listing</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2b2d42;
+    }
+    .controls {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    input[type="text"], select {
+      padding: 10px 15px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 240px;
+    }
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .product {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+    .product:hover {
+      transform: translateY(-5px);
+    }
+    .product h3 {
+      margin-top: 0;
+      color: #1e90ff;
+      font-size: 1.3em;
+    }
+    .product p {
+      margin: 8px 0;
+    }
+    .product .icon {
+      font-size: 30px;
+    }
+    .rating {
+      color: #f4c150;
+      font-weight: bold;
+    }
+    .product button {
+      margin-top: 10px;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 6px;
+      background-color: #0077cc;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s ease;
+    }
+    .product button:hover {
+      background-color: #005fa3;
+    }
+    .cart-summary {
+      text-align: center;
+      margin-top: 30px;
+      background-color: #d9f0ff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    .cart-summary h2 {
+      margin: 0 0 10px;
+      color: #0077cc;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      margin: 5px 0;
+      padding: 8px 12px;
+      border-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .cart-item button {
+      background: #ff3b30;
+      padding: 5px 10px;
+      border: none;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .cart-item button:hover {
+      background: #d12d24;
+    }
+    @media (max-width: 600px) {
+      input[type="text"], select {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🛍 Shop Smart - Product Listing</h1>
+
+  <div class="controls">
+    <input type="text" id="search" placeholder="🔍 Search products..." />
+    <select id="categoryFilter">
+      <option value="all">All Categories</option>
+      <option value="Electronics">Electronics</option>
+      <option value="Footwear">Footwear</option>
+      <option value="Accessories">Accessories</option>
+      <option value="Fashion">Fashion</option>
+      <option value="Stationery">Stationery</option>
+      <option value="Home">Home</option>
+      <option value="Beauty">Beauty</option>
+    </select>
+    <select id="sort">
+      <option value="none">Sort By</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+      <option value="rating">Rating: High to Low</option>
+    </select>
+  </div>
+
+  <div class="product-list" id="productList"></div>
+
+  <div class="cart-summary" id="cartSummary">
+    <h2>Cart: 0 items</h2>
+    <p>Total Amount: ₹0</p>
+    <div id="cartItems"></div>
+  </div>
+
+  <script>
+    const products = [
+      { name: 'Wireless Earbuds', price: 1999, category: 'Electronics', rating: 4.5, icon: '🎧' },
+      { name: 'Smart Watch', price: 2499, category: 'Electronics', rating: 4.8, icon: '⌚' },
+      { name: 'Sneakers', price: 1799, category: 'Footwear', rating: 4.2, icon: '👟' },
+      { name: 'Backpack', price: 1299, category: 'Accessories', rating: 4.0, icon: '🎒' },
+      { name: 'Sunglasses', price: 899, category: 'Fashion', rating: 3.9, icon: '🕶️' },
+      { name: 'Notebook Pack', price: 499, category: 'Stationery', rating: 4.6, icon: '📒' },
+      { name: 'Bluetooth Speaker', price: 1599, category: 'Electronics', rating: 4.3, icon: '🔊' },
+      { name: 'Formal Shoes', price: 2199, category: 'Footwear', rating: 4.4, icon: '👞' },
+      { name: 'Table Lamp', price: 799, category: 'Home', rating: 4.1, icon: '💡' },
+      { name: 'Cushion Cover Set', price: 699, category: 'Home', rating: 4.0, icon: '🛋️' },
+      { name: 'Lipstick Set', price: 999, category: 'Beauty', rating: 4.7, icon: '💄' },
+      { name: 'Perfume', price: 1499, category: 'Beauty', rating: 4.5, icon: '🧴' }
+    ];
+
+    let cart = [];
+
+    const productList = document.getElementById('productList');
+    const searchInput = document.getElementById('search');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const sortSelect = document.getElementById('sort');
+    const cartSummary = document.getElementById('cartSummary');
+    const cartItemsDiv = document.getElementById('cartItems');
+
+    const updateCartSummary = () => {
+      const totalItems = cart.length;
+      const totalPrice = cart.reduce((sum, p) => sum + p.price, 0);
+      cartSummary.querySelector('h2').textContent = `Cart: ${totalItems} item${totalItems !== 1 ? 's' : ''}`;
+      cartSummary.querySelector('p').textContent = `Total Amount: ₹${totalPrice}`;
+      cartItemsDiv.innerHTML = '';
+      cart.forEach((item, index) => {
+        const cartItemEl = document.createElement('div');
+        cartItemEl.className = 'cart-item';
+        cartItemEl.innerHTML = `
+          <span>${item.name} - ₹${item.price}</span>
+          <button>Remove</button>
+        `;
+        cartItemEl.querySelector('button').addEventListener('click', () => removeFromCart(index));
+        cartItemsDiv.appendChild(cartItemEl);
+      });
+    };
+
+    const addToCart = (product) => {
+      cart.push(product);
+      updateCartSummary();
+    };
+
+    const removeFromCart = (index) => {
+      cart.splice(index, 1);
+      updateCartSummary();
+    };
+
+    const renderProducts = (items) => {
+      productList.innerHTML = '';
+      items.forEach(({ name, price, category, rating, icon }) => {
+        const productEl = document.createElement('div');
+        productEl.className = 'product';
+        productEl.innerHTML = `
+          <div class="icon">${icon}</div>
+          <h3>${name}</h3>
+          <p>Category: ${category}</p>
+          <p>Price: ₹${price}</p>
+          <p class="rating">⭐ Rating: ${rating}</p>
+          <button>Add to Cart</button>
+        `;
+        productEl.querySelector('button').addEventListener('click', () => addToCart({ name, price }));
+        productList.appendChild(productEl);
+      });
+    };
+
+    const filterAndSortProducts = () => {
+      const query = searchInput.value.toLowerCase();
+      const selectedCategory = categoryFilter.value;
+      const sort = sortSelect.value;
+
+      let filtered = products.filter(({ name, category }) => {
+        const matchesSearch = name.toLowerCase().includes(query);
+        const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
+        return matchesSearch && matchesCategory;
+      });
+
+      if (sort === 'asc') {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (sort === 'desc') {
+        filtered.sort((a, b) => b.price - a.price);
+      } else if (sort === 'rating') {
+        filtered.sort((a, b) => b.rating - a.rating);
+      }
+
+      renderProducts(filtered);
+    };
+
+    searchInput.addEventListener('input', filterAndSortProducts);
+    categoryFilter.addEventListener('change', filterAndSortProducts);
+    sortSelect.addEventListener('change', filterAndSortProducts);
+
+    renderProducts(products);
+    updateCartSummary();
+  </script>
+</body>
+</html>
